@@ -14,7 +14,7 @@ import {
 } from "native-base";
 import Header from "../../components/Header/Header";
 import { globalStyles } from "../../utils/globalStyles";
-import { IProps } from "../../types";
+import { HomeProps } from "../../types";
 import ParkingSlot from "../../components/ParkingSlot/ParkingSlot";
 import { styles } from "./styles";
 import { connect } from "react-redux";
@@ -27,10 +27,10 @@ type IState = {
   isLoading: boolean;
 };
 
-export class Home extends Component<IProps, IState> {
+export class Home extends Component<HomeProps, IState> {
   backHandler?: NativeEventSubscription;
 
-  constructor(props: IProps) {
+  constructor(props: HomeProps) {
     super(props);
 
     // this bindings.

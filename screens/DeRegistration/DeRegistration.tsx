@@ -198,9 +198,9 @@ export class DeRegistration extends Component<DeRegistrationProps, IState> {
                 color="error.600"
                 fontFamily="text"
               >
-                {getCharges(this.state.carDetails.startTime).totalAmount +
+                {"$" +
                   " " +
-                  "$"}
+                  getCharges(this.state.carDetails.startTime).totalAmount}
               </Text>
             </Box>
             <Box

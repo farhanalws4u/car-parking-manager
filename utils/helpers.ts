@@ -26,7 +26,7 @@ export function getCharges(date: Date): {
   diff /= 60 * 60;
   const totalHours = Math.abs(Math.round(diff));
 
-  if (totalHours < 2) return { totalAmount: 0, totalHours };
+  if (totalHours < 2) return { totalAmount: 0.0, totalHours };
 
   const TWO_HOURS_AMOUNT = 10;
 

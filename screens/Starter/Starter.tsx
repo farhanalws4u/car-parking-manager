@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { IProps } from "../../types/index";
+import { RootStackParamList } from "../../types/index";
 import {
   KeyboardAvoidingView,
   NativeEventSubscription,
@@ -21,17 +21,30 @@ import {
 import { initializeParkingSlots } from "../../utils/helpers";
 import { connect } from "react-redux";
 import { createSlots } from "../../store/actions/parkingActions";
-import { ParkingSlotProp } from "../../types/reduxTypes";
+import { ActionProps, ParkingSlotProp } from "../../types/reduxTypes";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Dispatch } from "redux";
+import { CREATE_SLOTS } from "../../constants/actionTypes";
 
 interface IState {
   totalSlots: number;
   isButtonLoading: boolean;
 }
 
-export class Starter extends Component<IProps, IState> {
+export type StarterProps = {
+  createSlots: (
+    allSlots: Array<ParkingSlotProp>
+  ) => Dispatch<ActionProps<typeof CREATE_SLOTS, Array<ParkingSlotProp>>>;
+
+  parkingSlots: Array<{ id: number; isFilled: boolean }>;
+  [key: string]: string | number | Function | object | boolean;
+  navigation: NativeStackNavigationProp<RootStackParamList>;
+};
+
+export class Starter extends Component<StarterProps, IState> {
   backHandler?: NativeEventSubscription;
 
-  constructor(props: IProps) {
+  constructor(props: StarterProps) {
     super(props);
 
     // this bindings.
@@ -58,7 +71,7 @@ export class Starter extends Component<IProps, IState> {
     if (this.props.parkingSlots.length !== 0) {
       this.props.navigation.navigate("Home");
     }
-    this.props.navigation.addListener("blur", (payload) =>
+    this.props.navigation.addListener("blur", () =>
       BackHandler.removeEventListener("hardwareBackPress", this.backAction)
     );
   }
@@ -106,6 +119,7 @@ export class Starter extends Component<IProps, IState> {
                   Enter Number of Slots in Parking
                 </Heading>
                 <Input
+                  testID="parking-create-text-input"
                   id="parking-create-text-input"
                   onChangeText={(val) =>
                     this.setState({ totalSlots: parseInt(val) })

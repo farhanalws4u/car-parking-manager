@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View } from "react-native";
 import Header from "../../components/Header/Header";
-import { IProps } from "../../types";
+import { RegistrationProps } from "../../types";
 import { globalStyles } from "../../utils/globalStyles";
 import {
   KeyboardAvoidingView,
@@ -34,8 +34,8 @@ interface IState {
   carModel: string;
   registrationNumber: string;
 }
-export class Registration extends Component<IProps, IState> {
-  constructor(props: IProps) {
+export class Registration extends Component<RegistrationProps, IState> {
+  constructor(props: RegistrationProps) {
     super(props);
 
     // this bindings.
