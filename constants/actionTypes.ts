@@ -1,0 +1,9 @@
+export const ADD_NEW_CAR = "ADD_NEW_CAR";
+export const REMOVE_CAR = "REMOVE_CAR";
+export const CREATE_SLOTS = "CREATE_SLOTS";
+export const OPEN_MODAL = "OPEN_MODAL";
+export const CLOSE_MODAL = "CLOSE_MODAL";
+export const RESET_SLOTS = "RESET_SLOTS";
+export const UPDATE_SLOT = "UPDATE_SLOT";
+export const EMPTY_SLOT = "EMPTY_SLOT";
+export const REMOVE_ALL_CARS = "REMOVE_ALL_CARS";
