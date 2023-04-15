@@ -57,4 +57,16 @@ export class NavigationMock implements Navigation {
       });
     }
   }
+  navigate(type: string) {
+    const listeners = this.listeners.get(type);
+    if (listeners) {
+      listeners.forEach((listener) => {
+        if (typeof listener === "function") {
+          listener(new Event(type));
+        } else {
+          listener.handleEvent(new Event(type));
+        }
+      });
+    }
+  }
 }

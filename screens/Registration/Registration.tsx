@@ -159,6 +159,7 @@ export class Registration extends Component<RegistrationProps, IState> {
                   Customer Name
                 </FormControl.Label>
                 <Input
+                  testID="customer-name-input"
                   placeholder="e.g. John Doe"
                   keyboardType="default"
                   maxLength={20}
@@ -187,6 +188,7 @@ export class Registration extends Component<RegistrationProps, IState> {
                   Car Model
                 </FormControl.Label>
                 <Input
+                  testID="car-model-input"
                   fontFamily="text"
                   placeholder="e.g. porsche 911 spyder"
                   keyboardType="default"
@@ -217,6 +219,7 @@ export class Registration extends Component<RegistrationProps, IState> {
                   Car Registration No.
                 </FormControl.Label>
                 <Input
+                  testID="registration-number-input"
                   fontFamily="text"
                   id="parking-drawing-registration-input"
                   placeholder="UP 32 LU 3000"
@@ -246,6 +249,7 @@ export class Registration extends Component<RegistrationProps, IState> {
                 </FormControl.ErrorMessage>
               </FormControl>
               <Button
+                testID="add-car-button"
                 id="parking-drawing-add-car-button"
                 borderRadius="xl"
                 isLoading={this.state.isButtonLoading}

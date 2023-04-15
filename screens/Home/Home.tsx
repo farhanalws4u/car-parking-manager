@@ -21,6 +21,7 @@ import { connect } from "react-redux";
 import AppLoading from "../../components/AppLoading/AppLoading";
 import { resetSlots, updateSlot } from "../../store/actions/parkingActions";
 import { removeAllCars } from "../../store/actions/registerActions";
+import { CarDetailsProps, ParkingSlotProp } from "../../types/reduxTypes";
 
 type IState = {
   parkingSlots: Array<{ id: number; isFilled: boolean }>;
@@ -68,7 +69,7 @@ export class Home extends Component<HomeProps, IState> {
     return true;
   };
 
-  componentWillMount(): void {
+  UNSAFE_componentWillMount(): void {
     // temporary bug fix => parking slots array values are changed after saving to async storage.
     const carDetails = this.props.carsDetails;
     carDetails.map((obj) => {
@@ -154,6 +155,7 @@ export class Home extends Component<HomeProps, IState> {
                 All Slots
               </Heading>
               <Button
+                testID="slots-reset-button"
                 borderRadius="xl"
                 mr="3"
                 bg="error.400"
@@ -177,6 +179,7 @@ export class Home extends Component<HomeProps, IState> {
 
           <Box w="100%" flexGrow={1}>
             <Button
+              testID="add-car-button"
               bg="violet.700"
               size="md"
               _text={{
@@ -196,9 +199,13 @@ export class Home extends Component<HomeProps, IState> {
     );
   }
 }
+export interface CombineReduxState {
+  parkingSlots: Array<ParkingSlotProp>;
+  carsDetails: Array<CarDetailsProps>;
+}
 
 // to map redux store's state to component prop
-function mapStateToProps(state: any) {
+function mapStateToProps(state: CombineReduxState) {
   return {
     parkingSlots: state.parkingSlots,
     carsDetails: state.carsDetails,

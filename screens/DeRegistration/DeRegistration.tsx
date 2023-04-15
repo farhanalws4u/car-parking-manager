@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { globalStyles } from "../../utils/globalStyles";
 import { Box, Button, Heading, Icon, Text } from "native-base";
 import { DeRegistrationProps } from "../../types";
-import { AntDesign } from "@expo/vector-icons";
 import Header from "../../components/Header/Header";
 import { connect } from "react-redux";
 import AppLoading from "../../components/AppLoading/AppLoading";
@@ -11,6 +10,7 @@ import { removeCar } from "../../store/actions/registerActions";
 import { emptySlot } from "../../store/actions/parkingActions";
 import { getCharges } from "../../utils/helpers";
 import { makePayment } from "../../api/payment";
+import { Entypo } from "@expo/vector-icons";
 
 type IState = {
   isPaymentTaken: boolean;
@@ -243,10 +243,10 @@ export class DeRegistration extends Component<DeRegistrationProps, IState> {
                     fontFamily: "text",
                   }}
                   endIcon={
-                    <Icon as={AntDesign} name="check" size="sm" color="white" />
+                    <Icon as={Entypo} name="check" size="sm" color="white" />
                   }
                 >
-                  Payment Confirmed
+                  {`Payment Confirmed`}
                 </Button>
               )}
             </Box>

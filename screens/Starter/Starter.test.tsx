@@ -7,10 +7,12 @@ import { NavigationMock } from "../../utils/testHelpers";
 import { NativeBaseProvider } from "native-base";
 import { theme } from "../../utils/customFonts";
 import thunk from "redux-thunk";
+import { CREATE_SLOTS } from "../../constants/actionTypes";
+import { initializeParkingSlots } from "../../utils/helpers";
 
 const mockStore = configureStore([thunk]);
 
-// for nabive base provider
+// for native base provider
 const inset = {
   frame: { x: 0, y: 0, width: 0, height: 0 },
   insets: { top: 0, left: 0, right: 0, bottom: 0 },
@@ -34,25 +36,33 @@ describe("Starter Screen Tests..", () => {
 
   afterAll(cleanup);
 
+  // 1.
   test("It should have an input field", () => {
     const { screen, store } = renderComponent({
       carsDetails: [],
       parkingSlots: [],
     });
+
     const input = screen.getByTestId("parking-create-text-input");
+
     expect(input).toBeTruthy();
+
     expect(input).toHaveProperty("type", "TextInput");
   });
 
+  // 2.
   test("It should have a submit button.", () => {
     const { screen, store } = renderComponent({
       carsDetails: [],
       parkingSlots: [],
     });
+
     const submitButton = screen.getByTestId("parking-create-submit-button");
+
     expect(submitButton).toBeTruthy();
   });
 
+  // 3.
   test("button should dispatch create slots action.", () => {
     const { screen, store } = renderComponent({
       carsDetails: [],
@@ -62,5 +72,35 @@ describe("Starter Screen Tests..", () => {
     const submitButton = screen.getByTestId("parking-create-submit-button");
 
     fireEvent.press(submitButton);
+
+    const calledActions = [
+      {
+        type: CREATE_SLOTS,
+        payload: [],
+      },
+    ];
+
+    const actions = store.getActions();
+
+    expect(actions).toMatchObject(calledActions);
+  });
+
+  // 4.
+  test("button should navigate to home Screen.", () => {
+    navigationMock.reset = jest.fn();
+
+    const { screen, store } = renderComponent({
+      carsDetails: [],
+      parkingSlots: [],
+    });
+
+    const submitButton = screen.getByTestId("parking-create-submit-button");
+
+    fireEvent.press(submitButton);
+
+    expect(navigationMock.reset).toBeCalledWith({
+      index: 0,
+      routes: [{ name: "Home" }],
+    });
   });
 });
