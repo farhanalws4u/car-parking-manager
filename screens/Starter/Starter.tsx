@@ -21,12 +21,16 @@ import {
 import { initializeParkingSlots } from "../../utils/helpers";
 import { connect } from "react-redux";
 import { createSlots } from "../../store/actions/parkingActions";
-import { ActionProps, ParkingSlotProp } from "../../types/reduxTypes";
+import {
+  ActionProps,
+  CarDetailsProps,
+  ParkingSlotProp,
+} from "../../types/reduxTypes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Dispatch } from "redux";
 import { CREATE_SLOTS } from "../../constants/actionTypes";
 
-interface IState {
+export interface StarterSate {
   totalSlots: number;
   isButtonLoading: boolean;
 }
@@ -41,7 +45,7 @@ export type StarterProps = {
   navigation: NativeStackNavigationProp<RootStackParamList>;
 };
 
-export class Starter extends Component<StarterProps, IState> {
+export class Starter extends Component<StarterProps, StarterSate> {
   backHandler?: NativeEventSubscription;
 
   constructor(props: StarterProps) {
@@ -141,6 +145,7 @@ export class Starter extends Component<StarterProps, IState> {
                 </FormControl.ErrorMessage>
                 <Button
                   id="parking-create-submit-button"
+                  testID="parking-create-submit-button"
                   isLoading={this.state.isButtonLoading}
                   spinnerPlacement="end"
                   isLoadingText="Creating Slots"
@@ -166,7 +171,12 @@ export class Starter extends Component<StarterProps, IState> {
   }
 }
 
-function mapStateToProps(state: any) {
+export interface combineReduxState {
+  parkingSlots: Array<ParkingSlotProp>;
+  carsDetails: Array<CarDetailsProps>;
+}
+
+function mapStateToProps(state: combineReduxState) {
   return {
     parkingSlots: state.parkingSlots,
     carsDetails: state.carsDetails,

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import RootNavigator from "./navigator/RootNavigator";
 import { NativeBaseProvider } from "native-base";
-import { IProps } from "./types/index";
+import { CommonProps } from "./types/index";
 import { loadFonts } from "./utils/loadFonts";
 import AppLoading from "expo-app-loading";
 import { Provider as ReduxProvider } from "react-redux";
@@ -14,8 +14,8 @@ interface IState {
   fontsLoaded: boolean;
 }
 
-export class App extends Component<IProps, IState> {
-  constructor(props: IProps) {
+export class App extends Component<CommonProps, IState> {
+  constructor(props: CommonProps) {
     super(props);
 
     this.state = {

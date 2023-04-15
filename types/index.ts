@@ -20,7 +20,7 @@ export type RootStackParamList = {
   };
 };
 
-interface CommonProps {
+export interface CommonProps {
   parkingSlots: Array<{ id: number; isFilled: boolean }>;
   [key: string]: string | number | Function | object | boolean;
   navigation: NativeStackNavigationProp<RootStackParamList>;
