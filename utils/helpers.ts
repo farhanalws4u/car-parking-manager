@@ -38,3 +38,12 @@ export function getCharges(date: Date): {
 
   return { totalAmount, totalHours };
 }
+
+export const trimExtraSpace = (string: string): string => {
+  let wsRegex = /^\s+|\s+$/g;
+
+  const result = string.replaceAll(wsRegex, "");
+  console.log(string.length);
+  console.log(result.length);
+  return result;
+};

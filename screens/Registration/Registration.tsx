@@ -24,7 +24,7 @@ import { CarDetailsProps, ParkingSlotProp } from "../../types/reduxTypes";
 import { addNewCar } from "../../store/actions/registerActions";
 import { connect } from "react-redux";
 import { updateSlot } from "../../store/actions/parkingActions";
-
+import { trimExtraSpace } from "../../utils/helpers";
 interface IState {
   cutomerNameError?: string;
   carModelError?: string;
@@ -76,30 +76,34 @@ export class Registration extends Component<RegistrationProps, IState> {
 
     if (
       checkEmpty(
-        this.state.customerName,
-        this.state.carModel,
-        this.state.registrationNumber
+        trimExtraSpace(this.state.customerName),
+        trimExtraSpace(this.state.carModel),
+        trimExtraSpace(this.state.registrationNumber)
       )
     ) {
       isValid = false;
       alert("Please fill all details!");
     }
 
-    if (!validateName(this.state.customerName)) {
+    if (!validateName(trimExtraSpace(this.state.customerName))) {
       isValid = false;
       this.setState({
         cutomerNameError: "Enter a valid name!",
       });
     }
 
-    if (!validateRegistrationNumber(this.state.registrationNumber)) {
+    if (
+      !validateRegistrationNumber(
+        trimExtraSpace(this.state.registrationNumber.toLocaleUpperCase())
+      )
+    ) {
       isValid = false;
       this.setState({
         registrationNumberError: "Enter a valid registration no.!",
       });
     }
 
-    if (!validateCarModelName(this.state.carModel)) {
+    if (!validateCarModelName(trimExtraSpace(this.state.carModel))) {
       isValid = false;
       this.setState({ carModelError: "Enter a valid Car Model!" });
     }
@@ -112,7 +116,7 @@ export class Registration extends Component<RegistrationProps, IState> {
     const carDetails = {
       customerName: this.state.customerName,
       carModel: this.state.carModel,
-      registrationNumber: this.state.registrationNumber,
+      registrationNumber: this.state.registrationNumber.toLocaleUpperCase(),
       slotId: slotId,
       startTime: new Date(),
     };
@@ -159,6 +163,7 @@ export class Registration extends Component<RegistrationProps, IState> {
                   Customer Name
                 </FormControl.Label>
                 <Input
+                  value={this.state.customerName}
                   testID="customer-name-input"
                   placeholder="e.g. John Doe"
                   keyboardType="default"
@@ -188,6 +193,7 @@ export class Registration extends Component<RegistrationProps, IState> {
                   Car Model
                 </FormControl.Label>
                 <Input
+                  value={this.state.carModel}
                   testID="car-model-input"
                   fontFamily="text"
                   placeholder="e.g. porsche 911 spyder"
@@ -226,11 +232,10 @@ export class Registration extends Component<RegistrationProps, IState> {
                   keyboardType="default"
                   maxLength={15}
                   size="lg"
-                  value={this.state.registrationNumber.toUpperCase()}
-                  textTransform="uppercase"
+                  value={this.state.registrationNumber}
                   onChangeText={(val) =>
                     this.setState({
-                      registrationNumber: val.toUpperCase(),
+                      registrationNumber: val,
                     })
                   }
                   isInvalid={

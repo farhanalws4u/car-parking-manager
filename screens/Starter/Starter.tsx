@@ -5,6 +5,7 @@ import {
   NativeEventSubscription,
   BackHandler,
   Alert,
+  TextInput,
 } from "react-native";
 import { globalStyles } from "../../utils/globalStyles";
 import Header from "../../components/Header/Header";
@@ -31,8 +32,8 @@ import { Dispatch } from "redux";
 import { CREATE_SLOTS } from "../../constants/actionTypes";
 
 export interface StarterSate {
-  totalSlots: number;
   isButtonLoading: boolean;
+  totalSlots: any;
 }
 
 export type StarterProps = {
@@ -103,6 +104,10 @@ export class Starter extends Component<StarterProps, StarterSate> {
 
   //1. handle form submit.
   handleSubmit(): void {
+    if (this.state.totalSlots === 0) {
+      alert("Please enter no. of slots!");
+      return;
+    }
     const slots = initializeParkingSlots(this.state.totalSlots);
     this.props.createSlots(slots);
     this.props.navigation.reset({
@@ -122,20 +127,19 @@ export class Starter extends Component<StarterProps, StarterSate> {
                 <Heading size="md" fontFamily="text" fontWeight="500">
                   Enter Number of Slots in Parking
                 </Heading>
-                <Input
+                <TextInput
                   testID="parking-create-text-input"
                   id="parking-create-text-input"
                   onChangeText={(val) =>
-                    this.setState({ totalSlots: parseInt(val) })
+                    this.setState({
+                      totalSlots: val,
+                    })
                   }
+                  value={this.state.totalSlots.toString()}
+                  style={{ borderBottomWidth: 1, borderBottomColor: "violet" }}
                   placeholder="e.g. 10"
                   keyboardType="numeric"
-                  maxLength={2}
-                  size="lg"
-                  _focus={{
-                    backgroundColor: "violet.100",
-                    borderColor: "violet.500",
-                  }}
+                  maxLength={3}
                 />
                 <FormControl.ErrorMessage
                   fontFamily="text"

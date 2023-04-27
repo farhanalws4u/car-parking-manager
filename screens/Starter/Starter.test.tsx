@@ -8,7 +8,6 @@ import { NativeBaseProvider } from "native-base";
 import { theme } from "../../utils/customFonts";
 import thunk from "redux-thunk";
 import { CREATE_SLOTS } from "../../constants/actionTypes";
-import { initializeParkingSlots } from "../../utils/helpers";
 
 const mockStore = configureStore([thunk]);
 
@@ -62,7 +61,7 @@ describe("Starter Screen Tests..", () => {
     expect(submitButton).toBeTruthy();
   });
 
-  // 3.
+  3;
   test("button should dispatch create slots action.", () => {
     const { screen, store } = renderComponent({
       carsDetails: [],
@@ -70,13 +69,16 @@ describe("Starter Screen Tests..", () => {
     });
 
     const submitButton = screen.getByTestId("parking-create-submit-button");
+    const input = screen.getByTestId("parking-create-text-input");
+
+    fireEvent.changeText(input, 1);
 
     fireEvent.press(submitButton);
 
     const calledActions = [
       {
         type: CREATE_SLOTS,
-        payload: [],
+        payload: [{ id: 1, isFilled: false }],
       },
     ];
 
@@ -85,8 +87,8 @@ describe("Starter Screen Tests..", () => {
     expect(actions).toMatchObject(calledActions);
   });
 
-  // 4.
-  test("button should navigate to home Screen.", () => {
+  // 5.
+  test("should navigate to Home if input field is not empty.", () => {
     navigationMock.reset = jest.fn();
 
     const { screen, store } = renderComponent({
@@ -94,7 +96,10 @@ describe("Starter Screen Tests..", () => {
       parkingSlots: [],
     });
 
+    const input = screen.getByTestId("parking-create-text-input");
     const submitButton = screen.getByTestId("parking-create-submit-button");
+
+    fireEvent.changeText(input, 1);
 
     fireEvent.press(submitButton);
 
@@ -102,5 +107,24 @@ describe("Starter Screen Tests..", () => {
       index: 0,
       routes: [{ name: "Home" }],
     });
+  });
+
+  // 6.
+  test("should not navigate to Home if input field is empty.", () => {
+    navigationMock.reset = jest.fn();
+
+    const { screen, store } = renderComponent({
+      carsDetails: [],
+      parkingSlots: [],
+    });
+
+    const input = screen.getByTestId("parking-create-text-input");
+    const submitButton = screen.getByTestId("parking-create-submit-button");
+
+    fireEvent.changeText(input, 0);
+
+    fireEvent.press(submitButton);
+
+    expect(navigationMock.reset).toBeCalledTimes(0);
   });
 });
